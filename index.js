@@ -10,7 +10,7 @@ import connectToDatabase from "./db/db.js";
 connectToDatabase();
 const app = express();
 app.use(cors(
-  {origin: "http://localhost:5173",
+  {origin: "https://ecom-frontend-gules.vercel.app",
     credentials: true})
 );
 app.use(express.json());
