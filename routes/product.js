@@ -11,9 +11,9 @@ import {
 
 const router = express.Router();
 
-router.get("/", authMiddleware, getProducts);
+router.get("/", getProducts);
 router.post("/add", authMiddleware, upload.single("image"), addProduct);
-router.get("/:id", authMiddleware, getProduct);
+router.get("/:id", getProduct);
 router.put("/:id", authMiddleware, updateProduct);
 router.delete("/:id", authMiddleware, deleteProduct);
 

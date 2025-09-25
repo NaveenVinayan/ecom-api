@@ -9,12 +9,37 @@ import connectToDatabase from "./db/db.js";
 
 connectToDatabase();
 const app = express();
-app.use(cors(
-  {origin: "https://ecom-frontend-gules.vercel.app",
-    credentials: true})
-);
+
+// Define your allowed origins as an array
+const allowedOrigins = [
+  "https://ecom-frontend-gules.vercel.app", // Vercel frontend
+  "http://localhost:5173" // Port for local development 
+];
+
+// Configure CORS
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Bypass the origin check if the request has no origin (e.g., Postman)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+  allowedHeaders: ["Content-Type", "Authorization"],
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+};
+
+// Use the configured CORS middleware
+app.use(cors(corsOptions));
+
+
 app.use(express.json());
 app.use(express.static("public/uploads"));
+
 app.use("/api/auth", authRouter);
 app.use("/api/product", productRouter);
 app.use("/api/user", userRouter);
