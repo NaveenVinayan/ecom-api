@@ -23,10 +23,15 @@ const login = async (req, res) => {
       { expiresIn: "10d" }
     );
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       token,
-      user: { _id: user._id, name: user.name, role: user.role },
+      user: {
+        _id: user._id,
+        name: user.name,
+        role: user.role,
+        
+      },
     });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
@@ -58,6 +63,7 @@ const register = async (req, res) => {
       email,
       role: "user",
       password: hashedPassword,
+      wishlist: [],
     });
 
     await newUser.save();
@@ -68,10 +74,15 @@ const register = async (req, res) => {
       { expiresIn: "10d" }
     );
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       token,
-      user: { _id: newUser._id, name: newUser.name, role: newUser.role },
+      user: {
+        _id: newUser._id,
+        name: newUser.name,
+        role: newUser.role,
+        wishlist: [],
+      },
     });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
