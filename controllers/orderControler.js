@@ -40,6 +40,7 @@ const order = async (req, res) => {
   }
 };
 
+// For admin
 const getOrders = async (req, res) => {
   try {
     const orders = await Order.find()
@@ -58,6 +59,7 @@ const getOrders = async (req, res) => {
   }
 };
 
+// For admin
 const getOrder = async (req, res) => {
   try {
     const { id } = req.params;
@@ -76,17 +78,19 @@ const getOrder = async (req, res) => {
 const getUserOrder = async (req, res) => {
   try {
     const { id } = req.params;
-   
-    const orders = await User.findById(id).select('-password').populate({
-      path: "orders",
-      select:
-        "fullName phone street city state pincode status createdAt updatedAt",
-      populate: {
-        path: "productId",
-        select: "_id name description price productImage",
-      },
-    });
-    
+
+    const orders = await User.findById(id)
+      .select("-password")
+      .populate({
+        path: "orders",
+        select:
+          "fullName phone street city state pincode status createdAt updatedAt",
+        populate: {
+          path: "productId",
+          select: "_id name description price productImage",
+        },
+      });
+
     if (!orders) {
       return res.status(404).json({ success: false, error: "User not found" });
     }
@@ -95,9 +99,7 @@ const getUserOrder = async (req, res) => {
       success: true,
       orders: orders.orders,
     });
-
   } catch (error) {
-   
     return res
       .status(500)
       .json({ success: false, error: "getting user orders server error" });
@@ -126,7 +128,7 @@ const updateStatus = async (req, res) => {
   }
 };
 
-const cancelOrder = async (req,res) => {
+const cancelOrder = async (req, res) => {
   try {
     const { id } = req.params;
     const order = await Order.findByIdAndUpdate(
@@ -142,12 +144,12 @@ const cancelOrder = async (req,res) => {
       .status(200)
       .json({ success: true, message: "Order cancel successfully" });
   } catch (error) {
-    console.log(error,'hi');
-    
+    console.log(error, "hi");
+
     return res
       .status(500)
       .json({ success: false, error: "Cancel order server error" });
   }
-}
+};
 
-export { order, getOrders, getOrder, updateStatus ,getUserOrder ,cancelOrder};
+export { order, getOrders, getOrder, updateStatus, getUserOrder, cancelOrder };

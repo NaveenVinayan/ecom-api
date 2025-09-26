@@ -18,14 +18,11 @@ const verifyUser = async (req, res, next) => {
 
     if (!user) {
       return res.status(404).json({ success: false, error: "User not found" });
-      
     }
     req.user = user;
- 
-    next();
 
+    next();
   } catch (error) {
-    
     return res.status(500).json({ success: false, error: "server error" });
   }
 };

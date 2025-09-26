@@ -4,6 +4,7 @@ import authRouter from "./routes/auth.js";
 import productRouter from "./routes/product.js"; 
 import userRouter from "./routes/user.js"; 
 import orderRouter from "./routes/order.js"; 
+import wishlistRouter from "./routes/wishlist.js"; 
 import connectToDatabase from "./db/db.js";
 
 
@@ -44,6 +45,7 @@ app.use("/api/auth", authRouter);
 app.use("/api/product", productRouter);
 app.use("/api/user", userRouter);
 app.use("/api/order", orderRouter);
+app.use("/api/wishlist", wishlistRouter);
 
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on port ${process.env.PORT}`);
