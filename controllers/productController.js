@@ -1,18 +1,5 @@
-import multer from "multer";
-import path from "path";
 import Product from "../models/Product.js";
 
-
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "public/uploads");
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname));
-  },
-});
-
-const upload = multer({ storage: storage });
 
 const addProduct = async (req, res) => {
   try {
@@ -22,7 +9,7 @@ const addProduct = async (req, res) => {
       name,
       description,
       price,
-      productImage: req.file.filename,
+      productImage: req.file.path,
     });
 
     await newProduct.save();
@@ -111,7 +98,6 @@ const deleteProduct = async (req, res) => {
 
 export {
   addProduct,
-  upload,
   getProducts,
   getProduct,
   updateProduct,

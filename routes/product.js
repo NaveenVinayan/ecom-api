@@ -3,11 +3,11 @@ import authMiddleware from "../middleware/authMiddleware.js";
 import {
   addProduct,
   getProducts,
-  upload,
   getProduct,
   updateProduct,
   deleteProduct,
 } from "../controllers/productController.js";
+import upload from "../lib/cloudinary.js";
 
 const router = express.Router();
 
