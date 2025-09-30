@@ -1,5 +1,7 @@
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
+import Product from "../models/Product.js";
+import Order from "../models/Order.js";
 import bcrypt from "bcrypt";
 
 const login = async (req, res) => {
@@ -30,7 +32,6 @@ const login = async (req, res) => {
         _id: user._id,
         name: user.name,
         role: user.role,
-        
       },
     });
   } catch (error) {
@@ -93,4 +94,23 @@ const verify = (req, res) => {
   return res.status(200).json({ success: true, user: req.user });
 };
 
-export { login, verify, register };
+const stats = async (req, res) => {
+  try {
+    const [productsCount, ordersCount, usersCount] = await Promise.all([
+      Product.countDocuments(),
+      Order.countDocuments(),
+      User.countDocuments(),
+    ]);
+
+    return res
+      .status(200)
+      .json({
+        success: true,
+        stats: { productsCount, ordersCount, usersCount },
+      });
+  } catch (error) {
+    return res.status(500).json({ success: false, error: error.message });
+  }
+};
+
+export { login, verify, register, stats };
